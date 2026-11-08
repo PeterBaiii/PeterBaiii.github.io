@@ -1,0 +1,571 @@
+/* Site stylesheet. Colors and fonts are defined once in :root. */
+
+:root {
+  --bg: #faf9f6;
+  --surface: #ffffff;
+  --text: #29323d;
+  --text-muted: #64707d;
+  --accent: #244c64;
+  --link: #315e78;
+  --link-hover: #1f4055;
+  --border: #dde3e7;
+  --hover-bg: #eef3f5;
+  --link-underline: rgba(49, 94, 120, 0.3);
+
+  --font-body: Georgia, "Times New Roman", Times, serif;
+  --font-heading: "Merriweather", Georgia, serif;
+  --font-nav: Georgia, serif;
+
+  --navbar-height: 3.5rem;
+  --content-width: 780px;
+  --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* ---------- Typography ---------- */
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.35;
+  scroll-margin-top: calc(var(--navbar-height) + 1rem);
+}
+
+h1 {
+  font-size: 1.75rem;
+  margin: 0 0 1.25rem;
+}
+
+h2 {
+  font-size: 1.3rem;
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+h3 {
+  font-size: 1.05rem;
+  margin: 1.75rem 0 0.75rem;
+}
+
+h2 + h3 {
+  margin-top: 1.25rem;
+}
+
+h1 + h2 {
+  margin-top: 1.5rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+ul {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+
+li {
+  margin: 0.35rem 0;
+}
+
+li::marker {
+  color: var(--text-muted);
+}
+
+strong {
+  font-weight: 700;
+}
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.18s var(--ease), text-decoration-color 0.18s var(--ease);
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+section {
+  scroll-margin-top: calc(var(--navbar-height) + 1rem);
+}
+
+/* ---------- Scroll progress ---------- */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* ---------- Navbar ---------- */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: var(--navbar-height);
+  padding: 0 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-name {
+  margin-right: auto;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-name:hover {
+  color: var(--link-hover);
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nav-links a {
+  position: relative;
+  padding: 0.35rem 0.6rem;
+  font-family: var(--font-nav);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: 0.1rem;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.18s var(--ease);
+}
+
+.nav-links a:hover {
+  color: var(--link-hover);
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--accent);
+}
+
+.nav-links a:hover::after,
+.nav-links a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.nav-toggle,
+.nav-mask {
+  display: none;
+}
+
+.nav-toggle {
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-left: -0.5rem;
+  padding: 0.5rem;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
+}
+
+.nav-toggle:hover {
+  background: var(--hover-bg);
+  color: var(--accent);
+}
+
+.nav-toggle svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* ---------- Page ---------- */
+
+.content {
+  max-width: var(--content-width);
+  margin: calc(var(--navbar-height) + 2rem) auto 3rem;
+  padding: 2.5rem 3rem 3rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.content > :first-child {
+  margin-top: 0;
+}
+
+.placeholder {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Profile ---------- */
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  object-fit: cover;
+}
+
+.profile .name {
+  margin: 0 0 0.35rem;
+  font-size: 1.9rem;
+}
+
+.bio {
+  margin: 0 0 0.75rem;
+}
+
+.socials {
+  display: flex;
+  gap: 0.9rem;
+  margin-bottom: 0.6rem;
+}
+
+.socials a {
+  display: inline-flex;
+  width: 1.35rem;
+  height: 1.35rem;
+  color: var(--accent);
+  transition: color 0.18s var(--ease), transform 0.18s var(--ease);
+}
+
+.socials a:hover {
+  color: var(--link-hover);
+  transform: translateY(-2px);
+}
+
+.socials svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 0.95rem;
+}
+
+/* ---------- Dated lists and entries ---------- */
+
+.news {
+  list-style: none;
+  padding: 0;
+}
+
+.news li {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  column-gap: 1rem;
+}
+
+.date {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.entry {
+  margin: 0 0 1.25rem;
+}
+
+.entry:last-child {
+  margin-bottom: 0;
+}
+
+.entry-row,
+.roles li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: 1.5rem;
+}
+
+.entry-meta {
+  color: var(--text-muted);
+}
+
+.entry-project {
+  margin-top: 0.35rem;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--accent);
+}
+
+.entry-desc {
+  margin: 0.15rem 0 0;
+}
+
+.roles-org {
+  margin-bottom: 0.25rem;
+}
+
+.roles {
+  list-style: none;
+  padding: 0;
+}
+
+.roles li {
+  margin: 0;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.roles li:last-child {
+  border-bottom: 0;
+}
+
+/* ---------- Reveal on scroll ----------
+   Hidden state applies only once JS has marked <html class="js">. If main.js
+   never runs, the fallback animation shows everything after a short delay. */
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.js:not(.reveal-ready) .reveal {
+  animation: reveal-fallback 0s 1.5s forwards;
+}
+
+@keyframes reveal-fallback {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 759px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+
+  .content {
+    min-height: calc(100vh - var(--navbar-height));
+    margin: var(--navbar-height) 0 0;
+    padding: 1.75rem 1rem 2.5rem;
+    border: 0;
+    border-radius: 0;
+  }
+
+  /* Off-canvas nav, opened by .nav-toggle (main.js). */
+  .js .nav-toggle {
+    display: inline-flex;
+  }
+
+  .js .nav-links {
+    position: fixed;
+    top: var(--navbar-height);
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    flex-direction: column;
+    gap: 0;
+    width: min(16rem, 80vw);
+    padding: 1rem 0.75rem;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.25s var(--ease), visibility 0s 0.25s;
+  }
+
+  .js .nav-links a {
+    padding: 0.6rem 0.75rem;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+
+  .js .nav-links a::after {
+    display: none;
+  }
+
+  .js .nav-links a:hover,
+  .js .nav-links a[aria-current="page"] {
+    background: var(--hover-bg);
+  }
+
+  .nav-open .nav-links {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.25s var(--ease);
+  }
+
+  .nav-open .nav-mask {
+    display: block;
+    position: fixed;
+    top: var(--navbar-height);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 15;
+    background: rgba(41, 50, 61, 0.25);
+  }
+
+  /* Without JS the nav wraps under the site name instead. */
+  html:not(.js) .navbar {
+    position: static;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.6rem 1rem;
+  }
+
+  html:not(.js) .nav-links {
+    flex-wrap: wrap;
+    margin-left: -0.6rem;
+  }
+
+  html:not(.js) .content {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 559px) {
+  .profile {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 128px;
+    height: 128px;
+  }
+
+  .profile .name {
+    font-size: 1.6rem;
+  }
+
+  .socials {
+    justify-content: center;
+  }
+
+  .contact {
+    align-items: center;
+  }
+
+  .news li {
+    grid-template-columns: 5.25rem 1fr;
+    column-gap: 0.75rem;
+  }
+
+  /* Always put dates under the title so they line up within a list. */
+  .entry-row,
+  .roles li {
+    flex-direction: column;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+
+  .scroll-progress {
+    display: none;
+  }
+
+  .socials a:hover {
+    transform: none;
+  }
+
+  .nav-links,
+  .nav-open .nav-links,
+  .nav-links a::after {
+    transition: none;
+  }
+}
