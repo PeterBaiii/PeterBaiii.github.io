@@ -1,0 +1,20 @@
+---
+layout: default
+---
+{%- if page.collection == "lecture_notes" %}
+  {%- assign section_url = "/lecture-notes/" %}
+  {%- assign section_title = "Lecture Notes" %}
+{%- else %}
+  {%- assign section_url = "/blogs/" %}
+  {%- assign section_title = "Blogs" %}
+{%- endif %}
+    <article class="note reveal">
+      <header class="note-header">
+        <p class="note-back"><a href="{{ section_url }}">← {{ section_title }}</a></p>
+        <h1>{{ page.title }}</h1>
+        <p class="note-meta">{{ page.date | date: "%b %-d, %Y" }}</p>
+      </header>
+      <div class="note-body">
+{{ content }}
+      </div>
+    </article>

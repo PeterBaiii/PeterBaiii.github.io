@@ -1,48 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Blogs | Xinyu (Peter) Bai</title>
-  <link rel="icon" href="/assets/images/favicon.ico" sizes="32x32">
-  <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
-  <script>document.documentElement.classList.add('js');</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap">
-  <link rel="stylesheet" href="/assets/css/style.css?v=d89df2f5">
-  <script src="/assets/js/main.js?v=700a46ad" defer></script>
-  <script src="/assets/js/cosmos.js?v=c81784e3" defer></script>
-</head>
-
-<body>
-  <canvas class="cosmos" aria-hidden="true"></canvas>
-  <div class="scroll-progress" aria-hidden="true"></div>
-  <header class="navbar">
-    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
-      <svg viewBox="0 0 448 512" aria-hidden="true">
-        <path d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path>
-      </svg>
-    </button>
-    <a class="site-name" href="/">Xinyu (Peter) Bai</a>
-    <nav id="site-nav" class="nav-links" aria-label="Main">
-      <a href="/">Home</a>
-      <a href="/projects/">Projects</a>
-      <a href="/blogs/" aria-current="page">Blogs</a>
-      <a href="/lecture-notes/">Lecture Notes</a>
-      <a href="/miscellaneous/">Miscellaneous</a>
-    </nav>
-  </header>
-  <div class="nav-mask"></div>
-
-  <main class="content">
+---
+title: Blogs
+---
     <section class="reveal">
       <h1>Blogs</h1>
-      <p class="placeholder">#</p>
+{%- include note-list.html items=site.blogs %}
     </section>
-  </main>
-</body>
-
-</html>

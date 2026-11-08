@@ -271,12 +271,12 @@ section {
   color: var(--link-hover);
 }
 
-.nav-links a[aria-current="page"] {
+.nav-links a[aria-current] {
   color: var(--accent);
 }
 
 .nav-links a:hover::after,
-.nav-links a[aria-current="page"]::after {
+.nav-links a[aria-current]::after {
   transform: scaleX(1);
 }
 
@@ -467,6 +467,139 @@ section {
   color: var(--text-muted);
 }
 
+/* ---------- Blogs and lecture notes ---------- */
+
+.note-list {
+  list-style: none;
+  padding: 0;
+}
+
+.note-list li {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  column-gap: 1rem;
+  margin: 0.6rem 0;
+}
+
+.note-desc {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.note-header {
+  margin-bottom: 1.75rem;
+}
+
+.note-header h1 {
+  margin-bottom: 0.35rem;
+}
+
+.note-back,
+.note-meta {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.note-back {
+  margin-bottom: 0.75rem;
+}
+
+.note-back a {
+  text-decoration: none;
+}
+
+.note-body img {
+  max-width: 100%;
+  height: auto;
+}
+
+.note-body blockquote {
+  margin: 0 0 1rem;
+  padding: 0.1rem 0 0.1rem 1rem;
+  border-left: 3px solid var(--border);
+  color: var(--text-muted);
+}
+
+.note-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.note-body hr {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.note-body table {
+  display: block;
+  max-width: 100%;
+  margin: 0 0 1rem;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.note-body th,
+.note-body td {
+  padding: 0.35rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.note-body th {
+  border-bottom-color: var(--text-muted);
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+/* Code: inline, blocks, and Rouge syntax highlighting in the site palette. */
+code,
+pre {
+  font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+code {
+  font-size: 0.875em;
+}
+
+pre {
+  font-size: 0.875rem;
+}
+
+pre code {
+  font-size: inherit;
+}
+
+:not(pre) > code {
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  background: var(--hover-bg);
+}
+
+pre {
+  margin: 0 0 1rem;
+  padding: 0.9rem 1.1rem;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #f7f8f8;
+  line-height: 1.5;
+}
+
+.highlight .c, .highlight .c1, .highlight .cm, .highlight .cs, .highlight .cp { color: #7d8792; font-style: italic; }
+.highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kc, .highlight .ow { color: var(--accent); font-weight: 600; }
+.highlight .kt, .highlight .nc, .highlight .nn { color: #2f7a8a; }
+.highlight .s, .highlight .s1, .highlight .s2, .highlight .sb, .highlight .sd, .highlight .se, .highlight .si, .highlight .sr { color: #8a5a2b; }
+.highlight .m, .highlight .mi, .highlight .mf, .highlight .mh, .highlight .il { color: #b0603f; }
+.highlight .nf, .highlight .fm, .highlight .nb, .highlight .bp { color: var(--link); }
+.highlight .nd, .highlight .na, .highlight .nt { color: #6b5a8e; }
+.highlight .o, .highlight .p { color: var(--text); }
+
 /* ---------- Footer ---------- */
 
 .site-footer {
@@ -568,7 +701,7 @@ section {
   }
 
   .js .nav-links a:hover,
-  .js .nav-links a[aria-current="page"] {
+  .js .nav-links a[aria-current] {
     background: var(--hover-bg);
   }
 
@@ -634,6 +767,10 @@ section {
   .news li {
     grid-template-columns: 5.25rem 1fr;
     column-gap: 0.75rem;
+  }
+
+  .note-list li {
+    grid-template-columns: 1fr;
   }
 
   /* Always put dates under the title so they line up within a list. */

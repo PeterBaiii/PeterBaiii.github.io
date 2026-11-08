@@ -1,0 +1,11 @@
+# Top navigation, in order. Used by _layouts/default.html.
+- title: Home
+  url: /
+- title: Projects
+  url: /projects/
+- title: Blogs
+  url: /blogs/
+- title: Lecture Notes
+  url: /lecture-notes/
+- title: Miscellaneous
+  url: /miscellaneous/

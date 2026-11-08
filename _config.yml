@@ -1,0 +1,33 @@
+# Built by GitHub Pages' Jekyll on every push.
+# Blog posts go in _blogs/, lecture notes in _lecture_notes/ (Markdown).
+
+title: Xinyu (Peter) Bai
+url: https://peterbaiii.github.io
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  # $$...$$ becomes \(...\) or \[...\], rendered by KaTeX in the browser.
+  math_engine: mathjax
+
+collections:
+  blogs:
+    output: true
+    permalink: /blogs/:name/
+  lecture_notes:
+    output: true
+    permalink: /lecture-notes/:name/
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      type: blogs
+    values:
+      layout: note
+  - scope:
+      type: lecture_notes
+    values:
+      layout: note

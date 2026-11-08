@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  <link rel="icon" href="/assets/images/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap">
+  {%- comment -%} Build time in the URL, so browsers refetch CSS/JS after each deploy. {%- endcomment -%}
+  {%- assign version = site.time | date: '%s' %}
+  <link rel="stylesheet" href="/assets/css/style.css?v={{ version }}">
+  <script src="/assets/js/main.js?v={{ version }}" defer></script>
+  <script src="/assets/js/cosmos.js?v={{ version }}" defer></script>
+  {%- if content contains '\(' or content contains '\[' %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+    integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+    onload="renderMathInElement(document.querySelector('.content'), {delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}], throwOnError: false})"></script>
+  {%- endif %}
+  {%- if page.counter %}
+  <script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  {%- endif %}
+</head>
+
+<body>
+  <canvas class="cosmos" aria-hidden="true"></canvas>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <header class="navbar">
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
+      <svg viewBox="0 0 448 512" aria-hidden="true">
+        <path d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path>
+      </svg>
+    </button>
+    <a class="site-name" href="/">{{ site.title }}</a>
+    <nav id="site-nav" class="nav-links" aria-label="Main">
+      {%- for item in site.data.navigation %}
+      {%- comment -%} "page" on the exact page; "true" inside its section (e.g. a blog post). {%- endcomment -%}
+      {%- assign current = nil %}
+      {%- if page.url == item.url %}
+        {%- assign current = "page" %}
+      {%- elsif item.url != "/" %}
+        {%- assign prefix = page.url | slice: 0, item.url.size %}
+        {%- if prefix == item.url %}{% assign current = "true" %}{% endif %}
+      {%- endif %}
+      <a href="{{ item.url }}"{% if current %} aria-current="{{ current }}"{% endif %}>{{ item.title }}</a>
+      {%- endfor %}
+    </nav>
+  </header>
+  <div class="nav-mask"></div>
+
+  <main class="content">
+{{ content }}
+  </main>
+</body>
+
+</html>

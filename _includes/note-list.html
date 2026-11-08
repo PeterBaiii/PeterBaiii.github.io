@@ -1,0 +1,22 @@
+{%- comment -%}
+  Newest-first list of a collection's documents, or the "#" placeholder when
+  it is empty. Usage: {% include note-list.html items=site.blogs %}
+{%- endcomment -%}
+{%- assign notes = include.items | sort: "date" | reverse %}
+{%- if notes.size > 0 %}
+      <ul class="note-list">
+        {%- for note in notes %}
+        <li>
+          <span class="date">{{ note.date | date: "%b %-d, %Y" }}</span>
+          <span>
+            <a href="{{ note.url }}">{{ note.title }}</a>
+            {%- if note.description %}
+            <span class="note-desc">{{ note.description }}</span>
+            {%- endif %}
+          </span>
+        </li>
+        {%- endfor %}
+      </ul>
+{%- else %}
+      <p class="placeholder">#</p>
+{%- endif %}
