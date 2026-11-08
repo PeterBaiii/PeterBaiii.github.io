@@ -481,14 +481,6 @@ section {
 .site-footer p {
   margin: 0;
 }
-
-/* The MapMyVisitors widget sizes itself to this box (w=a). */
-.visitor-map {
-  width: 320px;
-  max-width: 100%;
-  margin: 0 auto 0.75rem;
-}
-
 /* ---------- Reveal on scroll ----------
    Hidden state applies only once JS has marked <html class="js">. If main.js
    never runs, the fallback animation shows everything after a short delay. */
