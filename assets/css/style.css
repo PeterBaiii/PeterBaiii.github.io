@@ -17,7 +17,7 @@
   --font-nav: Georgia, serif;
 
   --navbar-height: 3.5rem;
-  --content-width: 780px;
+  --content-width: 940px;
   --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
 }
 
@@ -378,16 +378,18 @@ section {
 .roles {
   list-style: none;
   padding: 0;
+  font-size: 0.95rem;
 }
 
 .roles li {
   margin: 0;
-  padding: 0.45rem 0;
-  border-bottom: 1px solid var(--border);
+  padding: 0.1rem 0;
 }
 
-.roles li:last-child {
-  border-bottom: 0;
+.note {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
 }
 
 /* ---------- Reveal on scroll ----------
@@ -536,6 +538,10 @@ section {
   .entry-row,
   .roles li {
     flex-direction: column;
+  }
+
+  .roles li {
+    padding: 0.25rem 0;
   }
 }
 
