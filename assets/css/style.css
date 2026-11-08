@@ -17,7 +17,7 @@
   --font-nav: Georgia, serif;
 
   --navbar-height: 3.5rem;
-  --content-width: 940px;
+  --content-width: 1000px;
   --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
 }
 
@@ -253,6 +253,10 @@ section {
 
 .content > :first-child {
   margin-top: 0;
+}
+
+.nowrap {
+  white-space: nowrap;
 }
 
 .placeholder {
