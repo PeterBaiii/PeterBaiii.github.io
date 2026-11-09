@@ -9,6 +9,11 @@ url: https://peterbaiii.github.io
 # server's clock (UTC), e.g. a post written in the morning in China.
 future: true
 
+# Repository files, not pages.
+exclude:
+  - README.md
+  - LICENSE
+
 markdown: kramdown
 kramdown:
   input: GFM
