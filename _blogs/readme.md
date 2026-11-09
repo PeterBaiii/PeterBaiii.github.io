@@ -27,6 +27,14 @@ repository without publishing it, add `published: false` to the header.
 Images go in `assets/images/` and are referenced with an absolute path, e.g.
 `![A diagram](/assets/images/diagram.png)`.
 
+## Two languages
+
+A post can have a Chinese version: put it in `_blogs/zh/` under the same file name. This post's
+[Chinese version](/blogs/zh/readme/), for example, is `_blogs/zh/readme.md`. The two are paired automatically: each
+shows a language switch next to the date, and the Blogs list shows the post once, with a link to the Chinese version.
+A post can also exist in only one language; a Chinese-only post is listed under its Chinese title. Lecture notes use
+`_lecture_notes/zh/` the same way.
+
 ## Math
 
 Math is LaTeX between double dollar signs, rendered with KaTeX. Within a sentence it stays inline: the loss

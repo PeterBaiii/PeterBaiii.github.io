@@ -1,15 +1,21 @@
 {%- comment -%}
   Newest-first list of a collection's documents, or the "#" placeholder when
-  it is empty. Usage: {% include note-list.html items=site.blogs %}
+  it is empty. A post with both languages is listed once, in English, with a
+  "中文" link. Usage: {% include note-list.html items=site.blogs %}
 {%- endcomment -%}
 {%- assign notes = include.items | sort: "date" | reverse %}
 {%- if notes.size > 0 %}
       <ul class="note-list">
         {%- for note in notes %}
+        {%- include translation.html doc=note %}
+        {%- if note.lang == "zh-CN" and translation %}{% continue %}{% endif %}
         <li>
           <span class="date">{{ note.date | date: "%b %-d, %Y" }}</span>
-          <span>
+          <span{% if note.lang %} lang="{{ note.lang }}"{% endif %}>
             <a href="{{ note.url }}">{{ note.title }}</a>
+            {%- if translation %}
+            <a class="note-lang" href="{{ translation.url }}" lang="zh-CN" hreflang="zh-CN">中文</a>
+            {%- endif %}
             {%- if note.description %}
             <span class="note-desc">{{ note.description }}</span>
             {%- endif %}

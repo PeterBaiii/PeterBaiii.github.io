@@ -1,5 +1,6 @@
 # Built by GitHub Pages' Jekyll on every push.
 # Blog posts go in _blogs/, lecture notes in _lecture_notes/ (Markdown).
+# A Chinese version goes in the zh/ subfolder under the same file name.
 
 title: Xinyu (Peter) Bai
 url: https://peterbaiii.github.io
@@ -31,3 +32,13 @@ defaults:
       type: lecture_notes
     values:
       layout: note
+  - scope:
+      path: _blogs/zh
+    values:
+      lang: zh-CN
+      permalink: /blogs/zh/:name/
+  - scope:
+      path: _lecture_notes/zh
+    values:
+      lang: zh-CN
+      permalink: /lecture-notes/zh/:name/

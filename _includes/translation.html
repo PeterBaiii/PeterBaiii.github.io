@@ -1,0 +1,13 @@
+{%- comment -%}
+  Sets `translation` to the other-language version of include.doc, or nil.
+  The Chinese version of _blogs/<name>.md is _blogs/zh/<name>.md (same for
+  _lecture_notes/). Usage: {% include translation.html doc=page %}
+{%- endcomment -%}
+{%- assign tr_dir = "_" | append: include.doc.collection | append: "/" %}
+{%- assign tr_zh_dir = tr_dir | append: "zh/" %}
+{%- if include.doc.lang == "zh-CN" %}
+  {%- assign tr_path = include.doc.path | replace_first: tr_zh_dir, tr_dir %}
+{%- else %}
+  {%- assign tr_path = include.doc.path | replace_first: tr_dir, tr_zh_dir %}
+{%- endif %}
+{%- assign translation = site[include.doc.collection] | where: "path", tr_path | first %}
