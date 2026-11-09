@@ -1,8 +1,46 @@
-// Site behavior: mobile nav, reveal-on-scroll, and the scroll progress bar.
+// Site behavior: theme switch, mobile nav, reveal-on-scroll, and the scroll
+// progress bar.
 // Pages stay fully readable without this script (see .reveal in style.css).
 (function () {
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Light/dark theme. The page head has already applied the saved choice or
+  // the system setting; the button switches and remembers it. Other scripts
+  // (cosmos.js) redraw on the "themechange" event.
+  var themeButton = document.querySelector('.theme-toggle');
+  var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  var fadeTimer;
+
+  function savedTheme() {
+    try { return localStorage.getItem('theme'); } catch (e) { return null; }
+  }
+
+  function setTheme(theme, fade) {
+    if (fade && !reduceMotion) {
+      root.classList.add('theme-fading');
+      clearTimeout(fadeTimer);
+      fadeTimer = setTimeout(function () { root.classList.remove('theme-fading'); }, 400);
+    }
+    root.setAttribute('data-theme', theme);
+    var label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    themeButton.setAttribute('aria-label', label);
+    themeButton.title = label;
+    document.dispatchEvent(new CustomEvent('themechange'));
+  }
+
+  if (themeButton) {
+    setTheme(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light', false);
+    themeButton.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      setTheme(next, true);
+    });
+    // Until the visitor picks a theme, follow changes to the system setting.
+    systemDark.addEventListener('change', function (event) {
+      if (!savedTheme()) setTheme(event.matches ? 'dark' : 'light', true);
+    });
+  }
 
   // Mobile nav: the toggle opens the panel; the mask or Escape closes it.
   var toggle = document.querySelector('.nav-toggle');

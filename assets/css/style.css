@@ -1,6 +1,8 @@
-/* Site stylesheet. Colors and fonts are defined once in :root. */
+/* Site stylesheet. Colors and fonts are defined once in :root; the dark
+   theme (html[data-theme="dark"], set in the page head) overrides the colors. */
 
 :root {
+  color-scheme: light;
   --bg: #faf9f6;
   --surface: #ffffff;
   --text: #29323d;
@@ -11,6 +13,25 @@
   --border: #dde3e7;
   --hover-bg: #eef3f5;
   --link-underline: rgba(49, 94, 120, 0.3);
+  --on-accent: #ffffff;
+  --code-bg: #f7f8f8;
+  --shadow: rgba(41, 50, 61, 0.08);
+  --mask: rgba(41, 50, 61, 0.25);
+
+  /* Syntax highlighting (keywords use --accent, functions --link). */
+  --hl-comment: #7d8792;
+  --hl-type: #2f7a8a;
+  --hl-string: #8a5a2b;
+  --hl-number: #b0603f;
+  --hl-attr: #6b5a8e;
+
+  /* Background orrery (cosmos.js): star color as "r, g, b", orbit and
+     label colors, star brightness multiplier, sun glow opacity. */
+  --cosmos-star: 36, 76, 100;
+  --cosmos-orbit: rgba(36, 76, 100, 0.18);
+  --cosmos-label: rgba(100, 112, 125, 0.75);
+  --cosmos-star-strength: 1;
+  --cosmos-glow: 0.35;
 
   --font-body: Georgia, "Times New Roman", Times, serif;
   --font-heading: "Merriweather", Georgia, serif;
@@ -21,6 +42,38 @@
   --navbar-height: 3.5rem;
   --content-width: 1000px;
   --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+/* Night theme: the light theme inverted. The deep blue of the accent becomes
+   the sky, the paper color becomes the ink, and the blues turn pale. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e151e;
+  --surface: #141d28;
+  --text: #e2dfd7;
+  --text-muted: #97a3af;
+  --accent: #a6c8dc;
+  --link: #8fbfdb;
+  --link-hover: #c4dfee;
+  --border: #253243;
+  --hover-bg: #1c2836;
+  --link-underline: rgba(143, 191, 219, 0.35);
+  --on-accent: #0e151e;
+  --code-bg: #10171f;
+  --shadow: rgba(0, 0, 0, 0.35);
+  --mask: rgba(4, 8, 13, 0.55);
+
+  --hl-comment: #7f8c99;
+  --hl-type: #7cc4c9;
+  --hl-string: #dcb68c;
+  --hl-number: #e59c7c;
+  --hl-attr: #b8a6dd;
+
+  --cosmos-star: 228, 233, 240;
+  --cosmos-orbit: rgba(166, 200, 220, 0.16);
+  --cosmos-label: rgba(151, 163, 175, 0.8);
+  --cosmos-star-strength: 1.7;
+  --cosmos-glow: 0.5;
 }
 
 *,
@@ -171,7 +224,7 @@ section {
   border-radius: 50%;
   background: var(--surface);
   color: var(--accent);
-  box-shadow: 0 2px 8px rgba(41, 50, 61, 0.08);
+  box-shadow: 0 2px 8px var(--shadow);
   cursor: pointer;
   transition: background-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.18s var(--ease);
 }
@@ -311,6 +364,58 @@ section {
   width: 100%;
   height: 100%;
   fill: currentColor;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-right: -0.5rem;
+  padding: 0.45rem;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
+}
+
+.theme-toggle:hover {
+  background: var(--hover-bg);
+  color: var(--accent);
+}
+
+.theme-toggle svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The button shows the theme it switches to. */
+[data-theme="dark"] .theme-toggle .icon-moon,
+:root:not([data-theme="dark"]) .theme-toggle .icon-sun {
+  display: none;
+}
+
+/* Only works with JS (main.js). */
+html:not(.js) .theme-toggle {
+  display: none;
+}
+
+/* Brief cross-fade while switching themes (main.js adds the class). */
+.theme-fading,
+.theme-fading *,
+.theme-fading *::before,
+.theme-fading *::after {
+  transition: background-color 0.35s var(--ease), border-color 0.35s var(--ease), color 0.35s var(--ease),
+    text-decoration-color 0.35s var(--ease) !important;
 }
 
 /* ---------- Page ---------- */
@@ -538,7 +643,7 @@ section {
 
 .lang-switch [aria-current] {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 /* "中文" link after a title in the Blogs and Lecture Notes lists. */
@@ -653,17 +758,17 @@ pre {
   overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: 6px;
-  background: #f7f8f8;
+  background: var(--code-bg);
   line-height: 1.5;
 }
 
-.highlight .c, .highlight .c1, .highlight .cm, .highlight .cs, .highlight .cp { color: #7d8792; font-style: italic; }
+.highlight .c, .highlight .c1, .highlight .cm, .highlight .cs, .highlight .cp { color: var(--hl-comment); font-style: italic; }
 .highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kc, .highlight .ow { color: var(--accent); font-weight: 600; }
-.highlight .kt, .highlight .nc, .highlight .nn { color: #2f7a8a; }
-.highlight .s, .highlight .s1, .highlight .s2, .highlight .sb, .highlight .sd, .highlight .se, .highlight .si, .highlight .sr { color: #8a5a2b; }
-.highlight .m, .highlight .mi, .highlight .mf, .highlight .mh, .highlight .il { color: #b0603f; }
+.highlight .kt, .highlight .nc, .highlight .nn { color: var(--hl-type); }
+.highlight .s, .highlight .s1, .highlight .s2, .highlight .sb, .highlight .sd, .highlight .se, .highlight .si, .highlight .sr { color: var(--hl-string); }
+.highlight .m, .highlight .mi, .highlight .mf, .highlight .mh, .highlight .il { color: var(--hl-number); }
 .highlight .nf, .highlight .fm, .highlight .nb, .highlight .bp { color: var(--link); }
-.highlight .nd, .highlight .na, .highlight .nt { color: #6b5a8e; }
+.highlight .nd, .highlight .na, .highlight .nt { color: var(--hl-attr); }
 .highlight .o, .highlight .p { color: var(--text); }
 
 /* ---------- Footer ---------- */
@@ -785,7 +890,7 @@ pre {
     bottom: 0;
     left: 0;
     z-index: 15;
-    background: rgba(41, 50, 61, 0.25);
+    background: var(--mask);
   }
 
   /* Without JS the nav wraps under the site name instead. */

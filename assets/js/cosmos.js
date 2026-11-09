@@ -10,8 +10,9 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var TAU = Math.PI * 2;
-  var INK = '36, 76, 100'; // --accent
-  var LABEL = 'rgba(100, 112, 125, 0.75)'; // --text-muted
+  // Theme colors, read from the --cosmos-* properties in style.css.
+  var STAR = '36, 76, 100', ORBIT = 'rgba(36, 76, 100, 0.18)', LABEL = 'rgba(100, 112, 125, 0.75)';
+  var STAR_STRENGTH = 1, GLOW = 0.35;
   var EARTH_PERIOD = 40; // seconds per displayed orbit of Earth
 
   // Deliberately not to scale: orbit radius grows with sqrt(au), periods with
@@ -52,6 +53,18 @@
       twinkle: 0.4 + random() * 1.2,
       phase: random() * TAU
     });
+  }
+
+  function readColors() {
+    var style = getComputedStyle(root);
+    function prop(name, fallback) {
+      return style.getPropertyValue(name).trim() || fallback;
+    }
+    STAR = prop('--cosmos-star', STAR);
+    ORBIT = prop('--cosmos-orbit', ORBIT);
+    LABEL = prop('--cosmos-label', LABEL);
+    STAR_STRENGTH = parseFloat(prop('--cosmos-star-strength', STAR_STRENGTH)) || 1;
+    GLOW = parseFloat(prop('--cosmos-glow', GLOW)) || 0.35;
   }
 
   // tilt: vertical squash of the orbital plane, as if viewed at an angle, so
@@ -146,7 +159,7 @@
   function drawSun() {
     var glowRadius = 85 * scale;
     var glow = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, glowRadius);
-    glow.addColorStop(0, 'rgba(228, 179, 99, 0.35)');
+    glow.addColorStop(0, 'rgba(228, 179, 99, ' + GLOW + ')');
     glow.addColorStop(1, 'rgba(228, 179, 99, 0)');
     ctx.fillStyle = glow;
     ctx.beginPath();
@@ -163,15 +176,15 @@
 
     for (var i = 0; i < starCount; i++) {
       var star = STARS[i];
-      var alpha = star.alpha + (reduceMotion ? 0 : 0.1 * Math.sin(t * star.twinkle + star.phase));
-      ctx.fillStyle = 'rgba(' + INK + ', ' + Math.max(alpha, 0.04).toFixed(3) + ')';
+      var alpha = STAR_STRENGTH * (star.alpha + (reduceMotion ? 0 : 0.1 * Math.sin(t * star.twinkle + star.phase)));
+      ctx.fillStyle = 'rgba(' + STAR + ', ' + Math.max(alpha, 0.04).toFixed(3) + ')';
       ctx.beginPath();
       ctx.arc(star.x * width, star.y * height, star.r, 0, TAU);
       ctx.fill();
     }
 
     ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(' + INK + ', 0.18)';
+    ctx.strokeStyle = ORBIT;
     PLANETS.forEach(drawOrbit);
 
     // Planets on the far side of the tilted plane pass behind the sun.
@@ -204,6 +217,7 @@
     var visible = getComputedStyle(canvas).display !== 'none';
     running = visible && !reduceMotion;
     if (!visible) return;
+    readColors();
     layout();
     draw(now());
     canvas.classList.add('is-ready');
@@ -236,6 +250,11 @@
   });
   document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape' && root.classList.contains('cosmos-only')) setBackgroundOnly(false);
+  });
+
+  document.addEventListener('themechange', function () {
+    readColors();
+    if (canvas.classList.contains('is-ready')) draw(now());
   });
 
   var resizeTimer;
