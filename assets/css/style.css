@@ -45,7 +45,9 @@
 }
 
 /* Night theme: the light theme inverted. The deep blue of the accent becomes
-   the sky, the paper color becomes the ink, and the blues turn pale. */
+   the sky, the paper color becomes the ink, and the blues turn pale. Screen
+   only, so pages always print dark-on-white. */
+@media screen {
 :root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #0e151e;
@@ -74,6 +76,7 @@
   --cosmos-label: rgba(151, 163, 175, 0.8);
   --cosmos-star-strength: 1.7;
   --cosmos-glow: 0.5;
+}
 }
 
 *,
@@ -581,6 +584,13 @@ html:not(.js) .theme-toggle {
   padding: 0;
 }
 
+/* Long URLs or identifiers in posts wrap instead of widening the page. */
+.note,
+.note-list {
+  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
 .note-list li {
   display: grid;
   grid-template-columns: 7rem 1fr;
@@ -623,6 +633,7 @@ html:not(.js) .theme-toggle {
 /* English / 中文 switch next to the date; the current language is filled. */
 .lang-switch {
   display: inline-flex;
+  white-space: nowrap;
   border: 1px solid var(--border);
   border-radius: 999px;
   overflow: hidden;
@@ -713,6 +724,8 @@ html:not(.js) .theme-toggle {
 
 .note-body th,
 .note-body td {
+  /* Keep words whole; a wide table scrolls instead (see .note). */
+  overflow-wrap: normal;
   padding: 0.35rem 0.9rem;
   border-bottom: 1px solid var(--border);
   text-align: left;
@@ -992,5 +1005,36 @@ pre {
   .nav-open .nav-links,
   .nav-links a::after {
     transition: none;
+  }
+}
+
+/* ---------- Print ---------- */
+
+@media print {
+  .navbar,
+  .nav-mask,
+  .scroll-progress,
+  .cosmos,
+  .cosmos-toggle {
+    display: none !important;
+  }
+
+  .content,
+  .cosmos-only .content {
+    max-width: none;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Sections below the fold were never scrolled into view. */
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
   }
 }

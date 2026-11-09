@@ -5,6 +5,10 @@
 title: Xinyu (Peter) Bai
 url: https://peterbaiii.github.io
 
+# Publish posts even if their date is still in the future on the build
+# server's clock (UTC), e.g. a post written in the morning in China.
+future: true
+
 markdown: kramdown
 kramdown:
   input: GFM

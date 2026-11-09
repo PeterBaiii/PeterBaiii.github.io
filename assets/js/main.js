@@ -36,9 +36,25 @@
       try { localStorage.setItem('theme', next); } catch (e) {}
       setTheme(next, true);
     });
-    // Until the visitor picks a theme, follow changes to the system setting.
-    systemDark.addEventListener('change', function (event) {
+    // Until the visitor picks a theme, follow changes to the system setting
+    // (addListener: Safari before 14).
+    var onSystemChange = function (event) {
       if (!savedTheme()) setTheme(event.matches ? 'dark' : 'light', true);
+    };
+    if (systemDark.addEventListener) systemDark.addEventListener('change', onSystemChange);
+    else if (systemDark.addListener) systemDark.addListener(onSystemChange);
+
+    // Catch up with a choice made elsewhere: in another tab, or on another
+    // page before this one was restored by the browser's Back button.
+    var syncTheme = function (fade) {
+      var saved = savedTheme();
+      if ((saved === 'dark' || saved === 'light') && saved !== root.getAttribute('data-theme')) setTheme(saved, fade);
+    };
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) syncTheme(false);
+    });
+    window.addEventListener('storage', function (event) {
+      if (event.key === 'theme') syncTheme(true);
     });
   }
 

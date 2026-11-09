@@ -12,12 +12,12 @@
         <li>
           <span class="date">{{ note.date | date: "%b %-d, %Y" }}</span>
           <span{% if note.lang %} lang="{{ note.lang }}"{% endif %}>
-            <a href="{{ note.url }}">{{ note.title }}</a>
+            <a href="{{ note.url }}">{{ note.title | escape }}</a>
             {%- if translation %}
             <a class="note-lang" href="{{ translation.url }}" lang="zh-CN" hreflang="zh-CN">中文</a>
             {%- endif %}
             {%- if note.description %}
-            <span class="note-desc">{{ note.description }}</span>
+            <span class="note-desc">{{ note.description | escape }}</span>
             {%- endif %}
           </span>
         </li>
