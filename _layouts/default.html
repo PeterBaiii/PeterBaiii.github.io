@@ -42,7 +42,9 @@
     onload="renderMathInElement(document.querySelector('.content'), {delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}], throwOnError: false})"></script>
   {%- endif %}
   {%- if page.counter %}
-  <script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  {%- comment -%} Visitor counter: vercount.one, a faster busuanzi replacement. crossorigin
+      lets its count request reuse the script's connection. {%- endcomment %}
+  <script src="https://events.vercount.one/js" async crossorigin="anonymous"></script>
   {%- endif %}
 </head>
 
