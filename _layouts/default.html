@@ -37,28 +37,15 @@
   <script src="/assets/js/cosmos.js?v={{ version }}" defer></script>
   {%- if content contains '\(' or content contains '\[' %}
   {%- comment -%}
-    KaTeX, only on pages with math. Its stylesheet does not block the page
-    either; math is rendered once the stylesheet and the scripts have all
-    arrived, and stays readable LaTeX source if the CDN is unreachable.
+    KaTeX, only on pages with math. Served from this site (assets/vendor), not
+    from a CDN, so math works wherever the site itself loads. To upgrade, add
+    the new version's folder and change the path here.
   {%- endcomment %}
-  <script>
-    var katexLoaded = 0;
-    function renderMath() {
-      if (++katexLoaded < 2 || !window.katex || !window.renderMathInElement) return;
-      renderMathInElement(document.querySelector('.content'), {
-        delimiters: [{ left: '\\[', right: '\\]', display: true }, { left: '\\(', right: '\\)', display: false }],
-        throwOnError: false
-      });
-    }
-  </script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
-    integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous"
-    media="print" onload="this.media='all'; renderMath()">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
-    integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
-    integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-    onload="renderMath()"></script>
+  {%- assign katex = "/assets/vendor/katex-0.16.11" %}
+  <link rel="stylesheet" href="{{ katex }}/katex.min.css">
+  <script defer src="{{ katex }}/katex.min.js"></script>
+  <script defer src="{{ katex }}/contrib/auto-render.min.js"
+    onload="window.katex && renderMathInElement(document.querySelector('.content'), {delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}], throwOnError: false})"></script>
   {%- endif %}
   {%- if page.counter %}
   {%- comment -%} Visitor counter: our own script, counting done by vercount.one. {%- endcomment %}
